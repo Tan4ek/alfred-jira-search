@@ -15,6 +15,8 @@ jira_organization: str = os.getenv("JIRA_ORG_NAME", "")
 
 jira_jqr: str = os.getenv("JIRA_JQL", "")
 
+temp_directory = os.getenv("alfred_workflow_cache", "/tmp")
+
 # read the first argument
 first_arg = sys.argv[1] if len(sys.argv) > 1 else None
 first_arg = first_arg.strip() if first_arg else None
@@ -47,10 +49,12 @@ def search_issues_jql(jql: str):
     conn.close()
     return json.loads(data)
 
-
 def read_issue_type_cache_map() -> dict[str, str]:
+    if not os.path.exists(temp_directory):
+        os.makedirs(temp_directory)
+
     # Dict issuetype id to icon url
-    issue_type_cache_filepath = '/tmp/issue_type_cache'
+    issue_type_cache_filepath = temp_directory + '/issue_type_cache'
     if os.path.exists(issue_type_cache_filepath):
         with open(issue_type_cache_filepath, 'r') as file:
             # read line by line , split by ':' and create a dict
@@ -66,7 +70,7 @@ def read_issue_type_cache_map() -> dict[str, str]:
 
 def write_issue_type(issuetype_id: str, icon_file_path: str):
     # write the issuetype id and icon file path to the end of the file
-    issue_type_cache_filepath = '/tmp/issue_type_cache'
+    issue_type_cache_filepath = temp_directory + '/issue_type_cache'
     with open(issue_type_cache_filepath, 'a') as file:
         file.write(f"{issuetype_id}:{icon_file_path}")
 
@@ -95,8 +99,8 @@ def download_image_to_temp(issuetype_id: str, url: str):
         # Determine file extension based on content type, default to .img if unknown
         file_extension = extension_map.get(content_type.split(";")[0], ".jpg")
 
-        # Generate a unique filename in /tmp
-        file_name = f"/tmp/{issuetype_id}{file_extension}"
+        # Generate a unique filename in {temp_directory}
+        file_name = f"{temp_directory}/{issuetype_id}{file_extension}"
 
         # Write the image data to the temp file
         with open(file_name, 'wb') as file:
@@ -107,7 +111,6 @@ def download_image_to_temp(issuetype_id: str, url: str):
         return None
 
     conn.close()
-
 
 def build_reponse(jira_jqrs_response: dict, issuetype_icon_cache: dict) -> str:
 
