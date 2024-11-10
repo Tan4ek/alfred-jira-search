@@ -102,7 +102,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>keyword</key>
-				<string>qqq</string>
+				<string>jj</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -112,17 +112,19 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string></string>
+				<string>Request in progress...</string>
 				<key>script</key>
 				<string></string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
 				<string>./scripts/search_jira_issues.py</string>
+				<key>skipuniversalaction</key>
+				<true/>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Jira Issues</string>
+				<string>Search Jira Issues</string>
 				<key>type</key>
 				<integer>8</integer>
 				<key>withspace</key>
@@ -192,11 +194,23 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Jira hello world</string>
+	<string># Jira Search
+
+## Configuration
+To work with this workflow you need to generate api key, details you can find in [Create-an-API-token](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/#Create-an-API-token). You need to give permissions to `read:jira-work`
+Prepare your JQL query in `Your JQL`, details you can find in [Advanced searching](https://support.atlassian.com/jira-service-management-cloud/docs/use-advanced-search-with-jira-query-language-jql/)
+
+## Usage
+- Type `jj`, to see the list of your issues. You can filter them by typing text.
+  - To open issue in default browser press `enter`.
+  - To copy issue url press `cmd+enter`.
+  - To copy issue ticket press `option+enter`.</string>
 	<key>uidata</key>
 	<dict>
 		<key>0B37968A-B7B1-4A2A-A35C-72C6879DAE5B</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>8</integer>
 			<key>xpos</key>
 			<real>505</real>
 			<key>ypos</key>
@@ -204,6 +218,8 @@
 		</dict>
 		<key>28E00F7E-3CC2-422B-BF49-E5CDC71D1A82</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>8</integer>
 			<key>xpos</key>
 			<real>295</real>
 			<key>ypos</key>
@@ -211,6 +227,8 @@
 		</dict>
 		<key>2B14A0F7-1508-4E55-BA62-1EFCA823AE55</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>8</integer>
 			<key>xpos</key>
 			<real>35</real>
 			<key>ypos</key>
@@ -218,6 +236,8 @@
 		</dict>
 		<key>43235C94-52F2-41FE-9D86-5C3447204C8F</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>8</integer>
 			<key>xpos</key>
 			<real>500</real>
 			<key>ypos</key>
@@ -225,6 +245,8 @@
 		</dict>
 		<key>FF16048D-F18B-410A-83E7-CC1F3FBC7322</key>
 		<dict>
+			<key>colorindex</key>
+			<integer>8</integer>
 			<key>xpos</key>
 			<real>505</real>
 			<key>ypos</key>
@@ -239,20 +261,20 @@
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string>Secret token</string>
+				<string>horns-and-hooves</string>
 				<key>required</key>
 				<true/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Generate on atlassian page</string>
+			<string>Organization name</string>
 			<key>label</key>
-			<string>Jira auth token password</string>
+			<string>Jira organization name</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>JIRA_AUTH_TOKEN_PASSWORD</string>
+			<string>JIRA_ORG_NAME</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -260,7 +282,7 @@
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string>xxx@domain.com</string>
+				<string>your@jira.email</string>
 				<key>required</key>
 				<true/>
 				<key>trim</key>
@@ -281,20 +303,20 @@
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string>roga-i-kopity</string>
+				<string>Secret token</string>
 				<key>required</key>
 				<true/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>Generate on atlassian page, https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/#Create-an-API-token . Required permisions - 'read:jira-work', details https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-post</string>
 			<key>label</key>
-			<string>Jira organization name</string>
+			<string>Jira auth token</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>JIRA_ORG_NAME</string>
+			<string>JIRA_AUTH_TOKEN_PASSWORD</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -309,7 +331,7 @@
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>More details in https://support.atlassian.com/jira-service-management-cloud/docs/use-advanced-search-with-jira-query-language-jql/</string>
 			<key>label</key>
 			<string>Your JQL</string>
 			<key>type</key>
@@ -317,9 +339,32 @@
 			<key>variable</key>
 			<string>JIRA_JQL</string>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>defaultvalue</key>
+				<integer>50</integer>
+				<key>markercount</key>
+				<integer>5</integer>
+				<key>maxvalue</key>
+				<integer>100</integer>
+				<key>minvalue</key>
+				<integer>20</integer>
+				<key>onlystoponmarkers</key>
+				<false/>
+				<key>showmarkers</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>The maximum number of issues to return</string>
+			<key>label</key>
+			<string>Issues to show</string>
+			<key>type</key>
+			<string>slider</string>
+			<key>variable</key>
+			<string>JIRA_JQL_MAX_RESULTS</string>
+		</dict>
 	</array>
-	<key>variablesdontexport</key>
-	<array/>
 	<key>version</key>
 	<string>1.0.0</string>
 	<key>webaddress</key>

@@ -1,0 +1,31 @@
+name: Alfred Workflow Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+env:
+  WORKFLOW_NAME: "Jira Search"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build .alfredworkflow
+        run: |
+          zip --recurse-paths --symlinks "${{ env.WORKFLOW_NAME }}.alfredworkflow" . \
+            --exclude "README.md" ".git*"
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: ${{ steps.version.outputs.version }}
+          files: ./${{ env.WORKFLOW_NAME }}.alfredworkflow

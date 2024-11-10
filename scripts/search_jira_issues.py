@@ -13,7 +13,9 @@ jira_auth_password: str = os.getenv("JIRA_AUTH_TOKEN_PASSWORD", "")
 
 jira_organization: str = os.getenv("JIRA_ORG_NAME", "")
 
-jira_jqr: str = os.getenv("JIRA_JQL", "")
+jira_jql: str = os.getenv("JIRA_JQL", "")
+
+jira_jql_max_results: int = int(os.getenv("JIRA_JQL_MAX_RESULTS", 20))
 
 temp_directory = os.getenv("alfred_workflow_cache", "/tmp")
 
@@ -38,8 +40,8 @@ def search_issues_jql(jql: str):
         "status",
         "issuetype"
     ],
-    "maxResults": 20,
-    "jql":  jira_jqr
+    "maxResults": jira_jql_max_results,
+    "jql":  jira_jql
     })
 
     conn = http.client.HTTPSConnection(jira_organization + ".atlassian.net")
@@ -161,7 +163,7 @@ def build_reponse(jira_jqrs_response: dict, issuetype_icon_cache: dict) -> str:
 
 issuetype_icon_cache = read_issue_type_cache_map()
 
-json_data = search_issues_jql(jira_jqr)
+json_data = search_issues_jql(jira_jql)
 
 response_str = build_reponse(json_data, issuetype_icon_cache)
 
